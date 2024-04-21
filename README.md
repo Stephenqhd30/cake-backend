@@ -73,7 +73,7 @@
 
 ## 快速上手
 
-> 所有需要修改的地方鱼皮都标记了 `todo`，便于大家找到修改的位置~
+> 所有需要修改的地方都标记了 `todo`，便于大家找到修改的位置~
 
 ### MySQL 数据库
 
@@ -104,7 +104,7 @@ spring:
     database: 1
     host: localhost
     port: 6379
-    timeout: 5000
+    timeout: 180000
 ```
 
 2）修改 `application.yml` 中的 session 存储方式：
