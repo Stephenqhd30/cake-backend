@@ -12,9 +12,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.stephen</groupId>
-    <artifactId>stephen-starter</artifactId>
+    <artifactId>stephen-backend-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>stephen-starter</name>
+    <name>stephen-backend-starter</name>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -47,6 +47,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
+        <!-- session -->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session-data-redis</artifactId>
