@@ -1,6 +1,5 @@
 # 公共配置文件
 # @author stephen qiu
-# 
 spring:
   application:
     name: stephen-backend-starter
