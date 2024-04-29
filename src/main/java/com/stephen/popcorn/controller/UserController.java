@@ -7,7 +7,7 @@ import com.stephen.popcorn.common.DeleteRequest;
 import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.common.ResultUtils;
 import com.stephen.popcorn.config.WxOpenConfig;
-import com.stephen.popcorn.constant.UserConstant;
+import com.stephen.popcorn.constants.UserConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.exception.ThrowUtils;
 import com.stephen.popcorn.model.dto.user.UserAddRequest;
@@ -40,7 +40,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.stephen.popcorn.service.impl.UserServiceImpl.SALT;
+import static com.stephen.popcorn.constants.SaltConstant.SALT;
+
 
 /**
  * 用户接口

@@ -1,4 +1,4 @@
-package com.stephen.popcorn.constant;
+package com.stephen.popcorn.constants;
 
 /**
  * 通用常量

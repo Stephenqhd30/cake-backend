@@ -4,7 +4,7 @@ import cn.hutool.core.io.FileUtil;
 import com.stephen.popcorn.common.BaseResponse;
 import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.common.ResultUtils;
-import com.stephen.popcorn.constant.FileConstant;
+import com.stephen.popcorn.constants.FileConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.manager.CosManager;
 import com.stephen.popcorn.model.dto.file.UploadFileRequest;

@@ -1,12 +1,13 @@
 package com.stephen.popcorn.service.impl;
 
-import static com.stephen.popcorn.constant.UserConstant.USER_LOGIN_STATE;
+import static com.stephen.popcorn.constants.SaltConstant.SALT;
+import static com.stephen.popcorn.constants.UserConstant.USER_LOGIN_STATE;
 
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stephen.popcorn.common.ErrorCode;
-import com.stephen.popcorn.constant.CommonConstant;
+import com.stephen.popcorn.constants.CommonConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.mapper.UserMapper;
 import com.stephen.popcorn.model.dto.user.UserQueryRequest;
@@ -38,10 +39,6 @@ import org.springframework.util.DigestUtils;
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 	
-	/**
-	 * 盐值，混淆密码
-	 */
-	public static final String SALT = "stephen";
 	
 	@Override
 	public long userRegister(String userAccount, String userPassword, String checkPassword) {

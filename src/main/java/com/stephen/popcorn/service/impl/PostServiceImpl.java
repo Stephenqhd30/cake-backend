@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stephen.popcorn.common.ErrorCode;
-import com.stephen.popcorn.constant.CommonConstant;
+import com.stephen.popcorn.constants.CommonConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.exception.ThrowUtils;
 import com.stephen.popcorn.mapper.PostFavourMapper;
