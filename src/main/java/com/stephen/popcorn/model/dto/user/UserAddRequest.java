@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class UserAddRequest implements Serializable {
 	
+	private static final long serialVersionUID = -6510457969873015318L;
 	/**
 	 * 用户昵称
 	 */
@@ -37,5 +38,14 @@ public class UserAddRequest implements Serializable {
 	 */
 	private String userProfile;
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 用户邮箱
+	 */
+	private String userEmail;
+	
+	/**
+	 * 手机号码
+	 */
+	private String userPhone;
+	
 }

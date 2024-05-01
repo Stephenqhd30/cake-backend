@@ -15,6 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class UserQueryRequest extends PageRequest implements Serializable {
+	private static final long serialVersionUID = 8796619426266616906L;
 	/**
 	 * id
 	 */
@@ -45,5 +46,15 @@ public class UserQueryRequest extends PageRequest implements Serializable {
 	 */
 	private String userRole;
 	
-	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * 用户邮箱
+	 */
+	private String userEmail;
+	
+	/**
+	 * 手机号码
+	 */
+	private String userPhone;
+	
 }

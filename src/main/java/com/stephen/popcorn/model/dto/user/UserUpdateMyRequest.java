@@ -12,6 +12,7 @@ import lombok.Data;
 @Data
 public class UserUpdateMyRequest implements Serializable {
 	
+	private static final long serialVersionUID = 402901746420005392L;
 	/**
 	 * 用户昵称
 	 */
@@ -27,5 +28,14 @@ public class UserUpdateMyRequest implements Serializable {
 	 */
 	private String userProfile;
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 用户邮箱
+	 */
+	private String userEmail;
+	
+	/**
+	 * 手机号码
+	 */
+	private String userPhone;
+
 }
