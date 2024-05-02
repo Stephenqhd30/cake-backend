@@ -66,10 +66,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 			}
 			// 2. 加密
 			String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
+			// 3. 给用户分配一个默认的头像
+			String userAvatar = "https://butterfly-1318299170.cos.ap-shanghai.myqcloud.com/Images/Blog/Avatar/avatar.webp";
 			// 3. 插入数据
 			User user = new User();
 			user.setUserAccount(userAccount);
 			user.setUserPassword(encryptPassword);
+			user.setUserAvatar(userAvatar);
 			boolean saveResult = this.save(user);
 			if (!saveResult) {
 				throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");

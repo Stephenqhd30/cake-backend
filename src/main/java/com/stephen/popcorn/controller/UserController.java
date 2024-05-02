@@ -175,7 +175,10 @@ public class UserController {
 		// 默认密码 12345678
 		String defaultPassword = "12345678";
 		String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
+		// 设置一个默认的头像
+		String userAvatar = "https://butterfly-1318299170.cos.ap-shanghai.myqcloud.com/Images/Blog/Avatar/avatar.webp";
 		user.setUserPassword(encryptPassword);
+		user.setUserAvatar(userAvatar);
 		boolean result = userService.save(user);
 		ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
 		return ResultUtils.success(user.getId());
@@ -206,7 +209,6 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/update")
-	@AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
 	public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
 	                                        HttpServletRequest request) {
 		if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
