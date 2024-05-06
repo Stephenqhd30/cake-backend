@@ -15,7 +15,7 @@ import java.util.Map;
  *
  * @author: stephen qiu
  **/
-public class JwtUtils {
+public class JWTUtils {
 	
 	// 签名密钥
 	private static final String SECRET = "popcorn";
@@ -46,8 +46,13 @@ public class JwtUtils {
 	 * @return 解析后的token
 	 */
 	public static DecodedJWT decode(String token) {
-		JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
-		return jwtVerifier.verify(token);
+		// 校验JWT的合法性
+		boolean validateToken = validateToken(token);
+		if (validateToken) {
+			JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(SECRET)).build();
+			return jwtVerifier.verify(token);
+		}
+		return null;
 	}
 	
 	/**
