@@ -12,10 +12,9 @@ import lombok.Data;
 @Data
 public class UploadFileRequest implements Serializable {
 	
+	private static final long serialVersionUID = 6149704783947487687L;
 	/**
 	 * 业务
 	 */
 	private String biz;
-	
-	private static final long serialVersionUID = 1L;
 }

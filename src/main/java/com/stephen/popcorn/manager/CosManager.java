@@ -17,13 +17,13 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CosManager {
-	
+
 	@Resource
 	private CosClientConfig cosClientConfig;
-	
+
 	@Resource
 	private COSClient cosClient;
-	
+
 	/**
 	 * 上传对象
 	 *
@@ -36,7 +36,7 @@ public class CosManager {
 				new File(localFilePath));
 		return cosClient.putObject(putObjectRequest);
 	}
-	
+
 	/**
 	 * 上传对象
 	 *

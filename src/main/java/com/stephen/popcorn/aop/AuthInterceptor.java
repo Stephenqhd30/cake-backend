@@ -1,6 +1,5 @@
 package com.stephen.popcorn.aop;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.stephen.popcorn.annotation.AuthCheck;
 import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.exception.BusinessException;
@@ -45,10 +44,6 @@ public class AuthInterceptor {
 		String mustRole = authCheck.mustRole();
 		RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 		HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-		// 当前登录用户
-		// String token = request.getHeader("token");
-		// DecodedJWT decodedJWT = JWTUtils.decode(token);
-		// decodedJWT.getClaim("id")
 		User loginUser = userService.getLoginUser(request);
 		// 必须有该权限才通过
 		if (StringUtils.isNotBlank(mustRole)) {
