@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import lombok.Getter;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
@@ -11,6 +12,7 @@ import org.apache.commons.lang3.ObjectUtils;
  *
  * @author stephen qiu
  */
+@Getter
 public enum FileUploadBizEnum {
 	
 	USER_AVATAR("用户头像", "user_avatar");
@@ -51,11 +53,4 @@ public enum FileUploadBizEnum {
 		return null;
 	}
 	
-	public String getValue() {
-		return value;
-	}
-	
-	public String getText() {
-		return text;
-	}
 }
