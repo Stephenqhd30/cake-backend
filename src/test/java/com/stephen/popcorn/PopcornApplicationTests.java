@@ -1,9 +1,11 @@
 package com.stephen.popcorn;
 
 import com.stephen.popcorn.config.WxOpenConfig;
-import javax.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.annotation.Resource;
+
 
 /**
  * 主类测试
