@@ -11,7 +11,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *
  * @author stephen qiu
  */
-@SpringBootApplication()
+@SpringBootApplication
 @MapperScan("com.stephen.popcorn.mapper")
 @EnableScheduling
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
