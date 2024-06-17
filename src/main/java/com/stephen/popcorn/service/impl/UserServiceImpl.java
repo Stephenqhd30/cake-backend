@@ -1,15 +1,10 @@
 package com.stephen.popcorn.service.impl;
 
-import static com.stephen.popcorn.constants.SaltConstant.SALT;
-import static com.stephen.popcorn.constants.UserConstant.USER_LOGIN_STATE;
-
 import cn.hutool.core.collection.CollUtil;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.constants.CommonConstant;
-import com.stephen.popcorn.constants.UserConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.mapper.UserMapper;
 import com.stephen.popcorn.model.dto.user.UserQueryRequest;
@@ -18,23 +13,22 @@ import com.stephen.popcorn.model.enums.UserRoleEnum;
 import com.stephen.popcorn.model.vo.LoginUserVO;
 import com.stephen.popcorn.model.vo.UserVO;
 import com.stephen.popcorn.service.UserService;
-import com.stephen.popcorn.utils.JWTUtils;
 import com.stephen.popcorn.utils.SqlUtils;
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletRequest;
-
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.stephen.popcorn.constants.SaltConstant.SALT;
+import static com.stephen.popcorn.constants.UserConstant.USER_AVATAR;
+import static com.stephen.popcorn.constants.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 用户服务实现
@@ -44,9 +38,6 @@ import org.springframework.util.DigestUtils;
 @Service
 @Slf4j
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-	
-	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
 	
 	@Override
 	public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -74,13 +65,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 			}
 			// 2. 加密
 			String encryptPassword = DigestUtils.md5DigestAsHex((SALT + userPassword).getBytes());
-			// 3. 给用户分配一个默认的头像
-			String userAvatar = "https://butterfly-1318299170.cos.ap-shanghai.myqcloud.com/Images/Blog/Avatar/avatar.webp";
 			// 3. 插入数据
 			User user = new User();
 			user.setUserAccount(userAccount);
 			user.setUserPassword(encryptPassword);
-			user.setUserAvatar(userAvatar);
+			// 3. 给用户分配一个默认的头像
+			user.setUserAvatar(USER_AVATAR);
 			boolean saveResult = this.save(user);
 			if (!saveResult) {
 				throw new BusinessException(ErrorCode.SYSTEM_ERROR, "注册失败，数据库错误");
@@ -113,23 +103,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 			log.info("user login failed, userAccount cannot match userPassword");
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
 		}
-		String token = setToken(user);
-		LoginUserVO loginUserVO = this.getLoginUserVO(user);
-		loginUserVO.setToken(token);
-		return loginUserVO;
-	}
-	
-	private String setToken(User user) {
-		// 3. 生成JWT Token
-		Map<String, Object> map = new HashMap<>();
-		map.put("userRole", user.getUserRole());
-		map.put("id", user.getId());
-		String token = JWTUtils.getToken(map);
-		// 4. 生成全局唯一的Token ID
-		String tokenId = USER_LOGIN_STATE + user.getId();
-		redisTemplate.opsForValue().set(tokenId, token);
-		redisTemplate.expire(tokenId, 7, TimeUnit.DAYS);
-		return token;
+		// 3. 记录用户的登录态
+		request.getSession().setAttribute(USER_LOGIN_STATE, user);
+		return this.getLoginUserVO(user);
 	}
 	
 	@Override
@@ -172,17 +148,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	 */
 	@Override
 	public User getLoginUser(HttpServletRequest request) {
-		// 从请求头中取出来token
-		String token = request.getHeader("token");
-		// 检验JWT的合法性
-		DecodedJWT decodedJWT = JWTUtils.decode(token);
-		String id = decodedJWT.getClaim("id").asString();
-		String storedToken = (String) redisTemplate.opsForValue().get(USER_LOGIN_STATE + id);
-		if (!storedToken.equals(token)) {
+		// 先判断是否已登录
+		Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+		User currentUser = (User) userObj;
+		if (currentUser == null || currentUser.getId() == null) {
 			throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
 		}
 		// 从数据库查询（追求性能的话可以注释，直接走缓存）
-		User currentUser = this.getById(id);
+		long userId = currentUser.getId();
+		currentUser = this.getById(userId);
 		if (currentUser == null) {
 			throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
 		}
@@ -234,14 +208,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 	 */
 	@Override
 	public boolean userLogout(HttpServletRequest request) {
-		String token = request.getHeader("token");
-		if (token == null) {
+		if (request.getSession().getAttribute(USER_LOGIN_STATE) == null) {
 			throw new BusinessException(ErrorCode.OPERATION_ERROR, "未登录");
 		}
-		DecodedJWT decodedJWT = JWTUtils.decode(token);
-		String id = decodedJWT.getClaim("id").asString();
 		// 移除登录态
-		redisTemplate.opsForValue().getOperations().delete(USER_LOGIN_STATE + id);
+		request.getSession().removeAttribute(USER_LOGIN_STATE);
 		return true;
 	}
 	

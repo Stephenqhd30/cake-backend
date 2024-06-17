@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author: stephen qiu
  * @create: 2024-05-06 19:20
  **/
-@Component
+// @Component
 @Slf4j
 public class JWTInterceptor implements HandlerInterceptor{
 	

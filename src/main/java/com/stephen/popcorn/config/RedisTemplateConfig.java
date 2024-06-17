@@ -15,10 +15,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  *
  * @author: stephen qiu
  **/
-@Configuration
+// @Configuration
 public class RedisTemplateConfig {
 	
-	@Autowired
+	// @Autowired
 	private RedisConnectionFactory redisConnectionFactory;
 	
 	/**

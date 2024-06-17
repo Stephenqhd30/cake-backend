@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Configuration;
  *
  * @author: stephen qiu
  **/
-@Configuration
+// @Configuration
 @Data
-@ConfigurationProperties(prefix = "spring.redis")
+// @ConfigurationProperties(prefix = "spring.redis")
 public class RedissonConfig {
 	
 	private String host;
