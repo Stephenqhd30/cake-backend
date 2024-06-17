@@ -41,6 +41,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.stephen.popcorn.constants.SaltConstant.SALT;
+import static com.stephen.popcorn.constants.UserConstant.DEFAULT_PASSWORD;
+import static com.stephen.popcorn.constants.UserConstant.USER_AVATAR;
 
 
 /**
@@ -64,8 +66,8 @@ public class UserController {
 	/**
 	 * 用户注册
 	 *
-	 * @param userRegisterRequest
-	 * @return
+	 * @param userRegisterRequest 用户注册请求
+	 * @return 注册是否成功
 	 */
 	@PostMapping("/register")
 	public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
@@ -173,12 +175,10 @@ public class UserController {
 		User user = new User();
 		BeanUtils.copyProperties(userAddRequest, user);
 		// 默认密码 12345678
-		String defaultPassword = "12345678";
-		String encryptPassword = DigestUtils.md5DigestAsHex((SALT + defaultPassword).getBytes());
+		String encryptPassword = DigestUtils.md5DigestAsHex((SALT + DEFAULT_PASSWORD).getBytes());
 		// 设置一个默认的头像
-		String userAvatar = "https://butterfly-1318299170.cos.ap-shanghai.myqcloud.com/Images/Blog/Avatar/avatar.webp";
 		user.setUserPassword(encryptPassword);
-		user.setUserAvatar(userAvatar);
+		user.setUserAvatar(USER_AVATAR);
 		boolean result = userService.save(user);
 		ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
 		return ResultUtils.success(user.getId());
@@ -224,8 +224,8 @@ public class UserController {
 	/**
 	 * 根据 id 获取用户（仅管理员）
 	 *
-	 * @param id
-	 * @param request
+	 * @param id 用户id
+	 * @param request request
 	 * @return
 	 */
 	@GetMapping("/get")
@@ -242,9 +242,9 @@ public class UserController {
 	/**
 	 * 根据 id 获取包装类
 	 *
-	 * @param id
-	 * @param request
-	 * @return
+	 * @param id 用户id
+	 * @param request request
+	 * @return 查询得到的用户包装类
 	 */
 	@GetMapping("/get/vo")
 	public BaseResponse<UserVO> getUserVOById(long id, HttpServletRequest request) {
@@ -274,8 +274,8 @@ public class UserController {
 	/**
 	 * 分页获取用户封装列表
 	 *
-	 * @param userQueryRequest
-	 * @param request
+	 * @param userQueryRequest 用户查询请求
+	 * @param request request
 	 * @return
 	 */
 	@PostMapping("/list/page/vo")
