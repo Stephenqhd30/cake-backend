@@ -1,9 +1,7 @@
 package com.stephen.popcorn.config;
 
-import com.stephen.popcorn.aop.JWTInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -13,15 +11,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class WebCorsConfig implements WebMvcConfigurer {
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new JWTInterceptor())
-				.addPathPatterns("api/**")
-				.excludePathPatterns("/user/login", "/user/register", "/user/logout",
-						"/swagger-resources/**", "/swagger-ui.html",
-						"/v2/api-docs", "/webjars/**", "/doc.html");
-	}
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.stephen.popcorn.mapper.GoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.stephen.popcorn.model.entity.Goods">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="goodsName" column="goodsName" jdbcType="VARCHAR"/>
+            <result property="goodsCover" column="goodsCover" jdbcType="VARCHAR"/>
+            <result property="goodsImage1" column="goodsImage1" jdbcType="VARCHAR"/>
+            <result property="goodsImage2" column="goodsImage2" jdbcType="VARCHAR"/>
+            <result property="price" column="price" jdbcType="FLOAT"/>
+            <result property="content" column="content" jdbcType="VARCHAR"/>
+            <result property="stock" column="stock" jdbcType="INTEGER"/>
+            <result property="typeId" column="typeId" jdbcType="INTEGER"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+            <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,goodsName,goodsCover,
+        goodsImage1,goodsImage2,price,userId,
+        content,stock,typeId,
+        createTime,updateTime,isDelete
+    </sql>
+</mapper>
