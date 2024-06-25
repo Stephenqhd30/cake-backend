@@ -8,22 +8,26 @@ import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.constants.CommonConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.exception.ThrowUtils;
+import com.stephen.popcorn.mapper.GoodsMapper;
 import com.stephen.popcorn.model.dto.goods.GoodsQueryRequest;
 import com.stephen.popcorn.model.entity.Goods;
 import com.stephen.popcorn.model.entity.User;
 import com.stephen.popcorn.model.vo.GoodsVO;
 import com.stephen.popcorn.model.vo.UserVO;
 import com.stephen.popcorn.service.GoodsService;
-import com.stephen.popcorn.mapper.GoodsMapper;
 import com.stephen.popcorn.service.UserService;
 import com.stephen.popcorn.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -139,8 +143,15 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		return goodsVOPage;
 	}
 	
+	@Override
+	public Page<GoodsVO> listGoodsVOByPage(GoodsQueryRequest goodsQueryRequest) {
+		int size = goodsQueryRequest.getPageSize();
+		int current = goodsQueryRequest.getCurrent();
+		Page<Goods> goodsPage = this.page(new Page<>(current, size),
+				this.getQueryWrapper(goodsQueryRequest));
+		Page<Goods> goodsVOPage = new Page<>(current, size, goodsPage.getTotal());
+		HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+		return this.getGoodsVOPage(goodsVOPage, request);
+	}
+	
 }
-
-
-
-

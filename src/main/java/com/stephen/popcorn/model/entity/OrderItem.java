@@ -8,6 +8,7 @@ import lombok.Data;
 
 /**
  * 订单项表
+ * @author stephen qiu
  * @TableName order_item
  */
 @TableName(value ="order_item")

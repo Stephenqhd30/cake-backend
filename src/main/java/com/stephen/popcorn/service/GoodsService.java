@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stephen.popcorn.model.dto.goods.GoodsQueryRequest;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.stephen.popcorn.model.dto.user.UserQueryRequest;
 import com.stephen.popcorn.model.entity.Goods;
 import com.stephen.popcorn.model.vo.GoodsVO;
+import com.stephen.popcorn.model.vo.UserVO;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,4 +25,11 @@ public interface GoodsService extends IService<Goods> {
 	GoodsVO getGoodsVO(Goods goods, HttpServletRequest request);
 	
 	Page<GoodsVO> getGoodsVOPage(Page<Goods> goodsPage, HttpServletRequest request);
+	
+	/**
+	 * 分页查询商品
+	 * @param goodsQueryRequest
+	 * @return
+	 */
+	Page<GoodsVO> listGoodsVOByPage(GoodsQueryRequest goodsQueryRequest);
 }

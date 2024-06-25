@@ -1,6 +1,7 @@
 package com.stephen.popcorn.model.enums;
 
 import io.swagger.models.auth.In;
+import lombok.Getter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Arrays;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
  *
  * @author stephen qiu
  */
+@Getter
 public enum OrderEnum {
 	
 	SUCCESS("正常", 0),
@@ -53,11 +55,4 @@ public enum OrderEnum {
 		return null;
 	}
 	
-	public Integer getValue() {
-		return value;
-	}
-	
-	public String getText() {
-		return text;
-	}
 }

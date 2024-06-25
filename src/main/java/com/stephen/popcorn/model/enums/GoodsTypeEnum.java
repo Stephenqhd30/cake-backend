@@ -1,5 +1,6 @@
 package com.stephen.popcorn.model.enums;
 
+import lombok.Getter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Arrays;
@@ -11,11 +12,17 @@ import java.util.stream.Collectors;
  *
  * @author stephen qiu
  */
+@Getter
 public enum GoodsTypeEnum {
 	
-	USER("用户", "user"),
-	ADMIN("管理员", "admin"),
-	BAN("被封号", "ban");
+	ALL("全部", "all"),
+	ICE_CREAM("冰淇淋系列", "iceCream"),
+	SNACK("零食系列", "snack"),
+	CHILDREN("儿童系列", "children"),
+	METHOD("法式系列", "method"),
+	CLASSIC("经典系列", "classic"),
+	FESTIVAL("节日系列", "festival"),
+	NOT_AFFORD("买不起系列", "notAfford");
 	
 	private final String text;
 	
@@ -53,11 +60,4 @@ public enum GoodsTypeEnum {
 		return null;
 	}
 	
-	public String getValue() {
-		return value;
-	}
-	
-	public String getText() {
-		return text;
-	}
 }

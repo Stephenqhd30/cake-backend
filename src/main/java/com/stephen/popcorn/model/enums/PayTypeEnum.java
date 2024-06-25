@@ -1,5 +1,6 @@
 package com.stephen.popcorn.model.enums;
 
+import lombok.Getter;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Arrays;
@@ -11,6 +12,7 @@ import java.util.stream.Collectors;
  *
  * @author stephen qiu
  */
+@Getter
 public enum PayTypeEnum {
 	
 	WX("微信支付", 0),
@@ -52,11 +54,4 @@ public enum PayTypeEnum {
 		return null;
 	}
 	
-	public Integer getValue() {
-		return value;
-	}
-	
-	public String getText() {
-		return text;
-	}
 }

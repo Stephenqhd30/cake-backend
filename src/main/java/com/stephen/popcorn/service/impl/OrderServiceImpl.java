@@ -50,20 +50,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>
 		String userPhone = order.getUserPhone();
 		String address = order.getAddress();
 		
-		
 		// 创建时，参数不能为空
 		ThrowUtils.throwIf(OrderEnum.getEnumByValue(status) == null, ErrorCode.PARAMS_ERROR);
 		if (add) {
 			ThrowUtils.throwIf(StringUtils.isAnyBlank(userName, userPhone, address), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
-		if (ObjectUtils.isNotEmpty(userName)) {
-			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品名称不能为空");
+		if (ObjectUtils.isEmpty(userName)) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户名称不能为空");
 		}
-		if (ObjectUtils.isNotEmpty(userPhone)) {
+		if (ObjectUtils.isEmpty(userPhone)) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户联系电话不能为空");
 		}
-		if (StringUtils.isNotBlank(address) && address.length() > 8192) {
+		if (StringUtils.isBlank(address) && address.length() > 8192) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "地址过长");
 		}
 	}

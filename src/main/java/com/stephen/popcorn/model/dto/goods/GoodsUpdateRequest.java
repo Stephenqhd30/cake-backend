@@ -16,7 +16,7 @@ public class GoodsUpdateRequest implements Serializable {
 	/**
 	 * 商品id
 	 */
-	private Integer id;
+	private Long id;
 	
 	/**
 	 * 商品名称

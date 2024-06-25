@@ -13,7 +13,6 @@ import com.stephen.popcorn.model.dto.orderItem.OrderItemQueryRequest;
 import com.stephen.popcorn.model.entity.Goods;
 import com.stephen.popcorn.model.entity.Order;
 import com.stephen.popcorn.model.entity.OrderItem;
-import com.stephen.popcorn.model.entity.User;
 import com.stephen.popcorn.model.vo.GoodsVO;
 import com.stephen.popcorn.model.vo.OrderItemVO;
 import com.stephen.popcorn.model.vo.OrderVO;
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -90,8 +88,8 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 		String sortField = orderItemQueryRequest.getSortField();
 		String sortOrder = orderItemQueryRequest.getSortOrder();
 		
-		queryWrapper.like(ObjectUtils.isNotEmpty(goodsPrice), "goodsPrice", goodsPrice);
-		queryWrapper.like(ObjectUtils.isNotEmpty(goodsAmount), "goodsAmount", goodsAmount);
+		queryWrapper.eq(ObjectUtils.isNotEmpty(goodsPrice), "goodsPrice", goodsPrice);
+		queryWrapper.eq(ObjectUtils.isNotEmpty(goodsAmount), "goodsAmount", goodsAmount);
 		queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
 		queryWrapper.eq(ObjectUtils.isNotEmpty(goodsId), "goodsId", goodsId);
 		queryWrapper.eq(ObjectUtils.isNotEmpty(orderId), "orderId", orderId);
