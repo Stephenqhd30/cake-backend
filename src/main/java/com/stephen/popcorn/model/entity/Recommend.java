@@ -17,7 +17,7 @@ public class Recommend implements Serializable {
      * 推荐栏id
      */
     @TableId(type = IdType.ASSIGN_ID)
-    private Integer id;
+    private Long id;
 
     /**
      * 商品类别
@@ -27,7 +27,7 @@ public class Recommend implements Serializable {
     /**
      * 商品id
      */
-    private Integer goodsId;
+    private Long goodsId;
 
     /**
      * 创建时间

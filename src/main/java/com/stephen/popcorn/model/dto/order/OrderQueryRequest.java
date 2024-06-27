@@ -3,6 +3,7 @@ package com.stephen.popcorn.model.dto.order;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.stephen.popcorn.common.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,6 +54,7 @@ public class OrderQueryRequest extends PageRequest implements Serializable {
     /**
      * 订单日期
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date dateTime;
     
     /**

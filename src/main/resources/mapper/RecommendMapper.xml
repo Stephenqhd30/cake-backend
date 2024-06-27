@@ -5,9 +5,9 @@
 <mapper namespace="com.stephen.popcorn.mapper.RecommendMapper">
 
     <resultMap id="BaseResultMap" type="com.stephen.popcorn.model.entity.Recommend">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="goodsType" column="goodsType" jdbcType="VARCHAR"/>
-            <result property="goodsId" column="goodsId" jdbcType="INTEGER"/>
+            <result property="goodsId" column="goodsId" jdbcType="BIGINT"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>

@@ -46,11 +46,6 @@ public class OrderItemQueryRequest extends PageRequest implements Serializable {
      * 用户
      */
     private Long userId;
-    
-    /**
-     * 关键词
-     */
-    private String searchText;
 
     private static final long serialVersionUID = 1L;
 }
