@@ -14,15 +14,14 @@ import java.util.stream.Collectors;
  */
 @Getter
 public enum GoodsTypeEnum {
+	ICE_CREAM("iceCream", "冰淇淋系列"),
+	SNACK("snack", "零食系列"),
+	CHILDREN("children", "儿童系列"),
+	METHOD("method", "法式系列"),
+	CLASSIC("classic", "经典系列"),
+	FESTIVAL("festival", "节日系列"),
+	NOT_AFFORD("notAfford", "买不起系列");
 	
-	ALL("全部", "all"),
-	ICE_CREAM("冰淇淋系列", "iceCream"),
-	SNACK("零食系列", "snack"),
-	CHILDREN("儿童系列", "children"),
-	METHOD("法式系列", "method"),
-	CLASSIC("经典系列", "classic"),
-	FESTIVAL("节日系列", "festival"),
-	NOT_AFFORD("买不起系列", "notAfford");
 	
 	private final String text;
 	

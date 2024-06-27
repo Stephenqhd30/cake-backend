@@ -49,15 +49,19 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>
 		String userName = order.getUserName();
 		String userPhone = order.getUserPhone();
 		String address = order.getAddress();
-		
+		Double total = order.getTotal();
 		// 创建时，参数不能为空
-		ThrowUtils.throwIf(OrderEnum.getEnumByValue(status) == null, ErrorCode.PARAMS_ERROR);
+		ThrowUtils.throwIf(OrderEnum.getEnumByValue(status).getValue() == 1, ErrorCode.PARAMS_ERROR);
 		if (add) {
 			ThrowUtils.throwIf(StringUtils.isAnyBlank(userName, userPhone, address), ErrorCode.PARAMS_ERROR);
+			ThrowUtils.throwIf(ObjectUtils.isEmpty(total), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
 		if (ObjectUtils.isEmpty(userName)) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户名称不能为空");
+		}
+		if (ObjectUtils.isEmpty(total)) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品总价不能为空");
 		}
 		if (ObjectUtils.isEmpty(userPhone)) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户联系电话不能为空");

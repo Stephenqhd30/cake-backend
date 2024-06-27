@@ -8,31 +8,20 @@ import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.constants.CommonConstant;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.exception.ThrowUtils;
-import com.stephen.popcorn.model.dto.type.TypeQueryRequest;
-import com.stephen.popcorn.model.entity.Goods;
-import com.stephen.popcorn.model.entity.Type;
-import com.stephen.popcorn.model.entity.Type;
-import com.stephen.popcorn.model.entity.User;
-import com.stephen.popcorn.model.enums.GoodsTypeEnum;
-import com.stephen.popcorn.model.vo.GoodsVO;
-import com.stephen.popcorn.model.vo.TypeVO;
-import com.stephen.popcorn.model.vo.UserVO;
-import com.stephen.popcorn.service.TypeService;
 import com.stephen.popcorn.mapper.TypeMapper;
+import com.stephen.popcorn.model.dto.type.TypeQueryRequest;
+import com.stephen.popcorn.model.entity.Type;
+import com.stephen.popcorn.model.vo.TypeVO;
+import com.stephen.popcorn.service.TypeService;
 import com.stephen.popcorn.service.UserService;
 import com.stephen.popcorn.utils.SqlUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -107,7 +96,7 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type>
 		List<TypeVO> typeVOList = typeList.stream().map(type -> {
 			TypeVO typeVO = TypeVO.objToVo(type);
 			String typeName = type.getTypeName();
-			typeVO.setTypeName(GoodsTypeEnum.getEnumByValue(typeName).getText());
+			typeVO.setTypeName(typeName);
 			return typeVO;
 		}).collect(Collectors.toList());
 		typeVOPage.setRecords(typeVOList);
@@ -116,7 +105,3 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type>
 		
 	}
 }
-
-
-
-

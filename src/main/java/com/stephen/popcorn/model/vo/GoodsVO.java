@@ -18,7 +18,7 @@ public class GoodsVO implements Serializable {
 	/**
 	 * 商品id
 	 */
-	private Integer id;
+	private Long id;
 	
 	/**
 	 * 商品名称
@@ -58,7 +58,7 @@ public class GoodsVO implements Serializable {
 	/**
 	 * 商品类型
 	 */
-	private Integer typeId;
+	private String typeName;
 	
 	/**
 	 * 创建人信信息

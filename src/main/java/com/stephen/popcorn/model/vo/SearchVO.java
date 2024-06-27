@@ -1,10 +1,9 @@
 package com.stephen.popcorn.model.vo;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Data;
-import org.apache.poi.ss.formula.functions.T;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author: stephen qiu
@@ -17,6 +16,6 @@ public class SearchVO implements Serializable {
 	/**
 	 * 列表
 	 */
-	private List<GoodsVO> dateList;
+	private Page<GoodsVO> dateList;
 	
 }

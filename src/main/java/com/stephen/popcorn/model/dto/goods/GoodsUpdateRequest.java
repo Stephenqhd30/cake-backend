@@ -56,7 +56,7 @@ public class GoodsUpdateRequest implements Serializable {
 	/**
 	 * 商品类型
 	 */
-	private Integer typeId;
+	private String typeName;
 	
 	private static final long serialVersionUID = 1L;
 }

@@ -12,6 +12,7 @@ import com.stephen.popcorn.mapper.GoodsMapper;
 import com.stephen.popcorn.model.dto.goods.GoodsQueryRequest;
 import com.stephen.popcorn.model.entity.Goods;
 import com.stephen.popcorn.model.entity.User;
+import com.stephen.popcorn.model.enums.GoodsTypeEnum;
 import com.stephen.popcorn.model.vo.GoodsVO;
 import com.stephen.popcorn.model.vo.UserVO;
 import com.stephen.popcorn.service.GoodsService;
@@ -25,6 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -51,19 +53,22 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		Double price = goods.getPrice();
 		String content = goods.getContent();
 		Integer stock = goods.getStock();
-		Integer typeId = goods.getTypeId();
+		String typeName = goods.getTypeName();
 		// 创建时，参数不能为空
 		if (add) {
 			ThrowUtils.throwIf(StringUtils.isAnyBlank(goodsName), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
-		if (ObjectUtils.isNotEmpty(typeId)) {
-			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品类别不能为空");
+		if (StringUtils.isBlank(typeName) && GoodsTypeEnum.getEnumByValue(typeName).getValue() != null) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品名称不能为空");
 		}
-		if (ObjectUtils.isNotEmpty(stock)) {
-			throw new BusinessException(ErrorCode.PARAMS_ERROR, "库存量不能少与0");
+		if (ObjectUtils.isEmpty(price) && price > 0) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品价格不能为空并且价格不得低于0");
 		}
-		if (StringUtils.isNotBlank(content) && content.length() > 8192) {
+		if (ObjectUtils.isEmpty(stock) && price > 0) {
+			throw new BusinessException(ErrorCode.PARAMS_ERROR, "库存量不能为空或者小于0");
+		}
+		if (StringUtils.isBlank(content) && content.length() > 8192) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
 		}
 	}
@@ -83,7 +88,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		Long id = goodsQueryRequest.getId();
 		String goodsName = goodsQueryRequest.getGoodsName();
 		String content = goodsQueryRequest.getContent();
-		Integer typeId = goodsQueryRequest.getTypeId();
+		String typeName = goodsQueryRequest.getTypeName();
 		Long userId = goodsQueryRequest.getUserId();
 		String searchText = goodsQueryRequest.getSearchText();
 		String sortField = goodsQueryRequest.getSortField();
@@ -93,7 +98,7 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		if (StringUtils.isNotBlank(searchText)) {
 			queryWrapper.and(qw -> qw.like("goodsName", searchText).or().like("content", searchText));
 		}
-		queryWrapper.like(ObjectUtils.isNotEmpty(typeId), "typeId", typeId);
+		queryWrapper.like(StringUtils.isNotBlank(typeName), "typeName", typeName);
 		queryWrapper.like(StringUtils.isNotBlank(content), "content", content);
 		queryWrapper.like(StringUtils.isNotBlank(goodsName), "goodsName", goodsName);
 		queryWrapper.eq(ObjectUtils.isNotEmpty(id), "id", id);
@@ -121,24 +126,25 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 	public Page<GoodsVO> getGoodsVOPage(Page<Goods> goodsPage, HttpServletRequest request) {
 		List<Goods> goodsList = goodsPage.getRecords();
 		Page<GoodsVO> goodsVOPage = new Page<>(goodsPage.getCurrent(), goodsPage.getSize(), goodsPage.getTotal());
+		
 		if (CollUtil.isEmpty(goodsList)) {
-			return goodsVOPage;
+			goodsVOPage.setRecords(Collections.emptyList()); // 设置空记录列表
+			return goodsVOPage; // 返回空的分页对象
 		}
-		// 1. 关联查询用户信息
+		
+		// 1. 批量查询用户信息
 		Set<Long> userIdSet = goodsList.stream().map(Goods::getUserId).collect(Collectors.toSet());
-		Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
-				.collect(Collectors.groupingBy(User::getId));
-		// 填充信息
-		List<GoodsVO> goodsVOList = goodsList.stream().map(post -> {
-			GoodsVO goodsVO = GoodsVO.objToVo(post);
-			Long userId = post.getUserId();
-			User user = null;
-			if (userIdUserListMap.containsKey(userId)) {
-				user = userIdUserListMap.get(userId).get(0);
-			}
-			goodsVO.setUserVO(userService.getUserVO(user));
+		Map<Long, UserVO> userIdUserVOMap = userService.listByIds(userIdSet).stream()
+				.collect(Collectors.toMap(User::getId, userService::getUserVO));
+		
+		// 2. 填充信息
+		List<GoodsVO> goodsVOList = goodsList.stream().map(goods -> {
+			GoodsVO goodsVO = GoodsVO.objToVo(goods);
+			UserVO userVO = userIdUserVOMap.get(goods.getUserId());
+			goodsVO.setUserVO(userVO);
 			return goodsVO;
 		}).collect(Collectors.toList());
+		
 		goodsVOPage.setRecords(goodsVOList);
 		return goodsVOPage;
 	}
@@ -149,9 +155,8 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		int current = goodsQueryRequest.getCurrent();
 		Page<Goods> goodsPage = this.page(new Page<>(current, size),
 				this.getQueryWrapper(goodsQueryRequest));
-		Page<Goods> goodsVOPage = new Page<>(current, size, goodsPage.getTotal());
 		HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
-		return this.getGoodsVOPage(goodsVOPage, request);
+		return this.getGoodsVOPage(goodsPage, request);
 	}
 	
 }

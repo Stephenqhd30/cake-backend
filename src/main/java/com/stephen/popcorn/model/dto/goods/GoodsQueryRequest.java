@@ -60,7 +60,7 @@ public class GoodsQueryRequest extends PageRequest implements Serializable {
     /**
      * 商品类型
      */
-    private Integer typeId;
+    private String typeName;
     
     /**
      * 创建人id

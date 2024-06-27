@@ -6,6 +6,7 @@ import com.stephen.popcorn.common.ErrorCode;
 import com.stephen.popcorn.exception.BusinessException;
 import com.stephen.popcorn.model.dto.goods.GoodsQueryRequest;
 import com.stephen.popcorn.model.dto.search.SearchRequest;
+import com.stephen.popcorn.model.dto.user.UserQueryRequest;
 import com.stephen.popcorn.model.entity.Goods;
 import com.stephen.popcorn.model.vo.GoodsVO;
 import com.stephen.popcorn.service.GoodsService;
@@ -33,17 +34,16 @@ import java.util.Map;
 @Service
 @Slf4j
 public class GoodsDataSource implements DataSource<GoodsVO> {
-	
 	@Resource
 	private GoodsService goodsService;
 	
 	@Override
-	public Page<GoodsVO> doSearch(String searchText, long pageNum, long pageSize) {
+	public Page<GoodsVO> doSearch(String searchText, String type, long pageNum, long pageSize) {
 		GoodsQueryRequest goodsQueryRequest = new GoodsQueryRequest();
-		goodsQueryRequest.setContent(searchText);
+		goodsQueryRequest.setTypeName(type);
 		goodsQueryRequest.setSearchText(searchText);
-		goodsQueryRequest.setCurrent((int)pageNum);
-		goodsQueryRequest.setPageSize((int)pageSize);
+		goodsQueryRequest.setCurrent((int) pageNum);
+		goodsQueryRequest.setPageSize((int) pageSize);
 		return goodsService.listGoodsVOByPage(goodsQueryRequest);
 	}
 }

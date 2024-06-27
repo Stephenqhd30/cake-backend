@@ -44,9 +44,9 @@ public class OrderController {
 	/**
 	 * 创建
 	 *
-	 * @param orderAddRequest
-	 * @param request
-	 * @return
+	 * @param orderAddRequest 订单的添加请求
+	 * @param request httpServletRequest
+	 * @return 添加成功之后的订单 id
 	 */
 	@PostMapping("/add")
 	public BaseResponse<Long> addOrder(@RequestBody OrderAddRequest orderAddRequest, HttpServletRequest request) {
@@ -56,6 +56,7 @@ public class OrderController {
 		Order order = new Order();
 		BeanUtils.copyProperties(orderAddRequest, order);
 		orderService.validOrder(order, true);
+		// 设置添加创建人为当前用户
 		User loginUser = userService.getLoginUser(request);
 		order.setUserId(loginUser.getId());
 		boolean result = orderService.save(order);
@@ -92,8 +93,8 @@ public class OrderController {
 	/**
 	 * 更新（仅管理员）
 	 *
-	 * @param orderUpdateRequest
-	 * @return
+	 * @param orderUpdateRequest 订单更新请求
+	 * @return 是否更新成功
 	 */
 	@PostMapping("/update")
 	@AuthCheck(mustRole = UserConstant.ADMIN_ROLE)

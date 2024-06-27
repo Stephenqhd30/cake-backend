@@ -1,6 +1,5 @@
 package com.stephen.popcorn.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.stephen.popcorn.annotation.AuthCheck;
 import com.stephen.popcorn.common.BaseResponse;
@@ -158,7 +157,7 @@ public class GoodsController {
 	 */
 	@PostMapping("/list/page/vo")
 	public BaseResponse<Page<GoodsVO>> listGoodsVOByPage(@RequestBody GoodsQueryRequest goodsQueryRequest,
-	                                                   HttpServletRequest request) {
+	                                                     HttpServletRequest request) {
 		long current = goodsQueryRequest.getCurrent();
 		long size = goodsQueryRequest.getPageSize();
 		// 限制爬虫
@@ -177,7 +176,7 @@ public class GoodsController {
 	 */
 	@PostMapping("/my/list/page/vo")
 	public BaseResponse<Page<GoodsVO>> listMyGoodsVOByPage(@RequestBody GoodsQueryRequest goodsQueryRequest,
-	                                                     HttpServletRequest request) {
+	                                                       HttpServletRequest request) {
 		if (goodsQueryRequest == null) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR);
 		}
