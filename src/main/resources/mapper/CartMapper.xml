@@ -2,19 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.stephen.popcorn.mapper.RecommendMapper">
+<mapper namespace="com.stephen.popcorn.mapper.CartMapper">
 
-    <resultMap id="BaseResultMap" type="com.stephen.popcorn.model.entity.Recommend">
+    <resultMap id="BaseResultMap" type="com.stephen.popcorn.model.entity.Cart">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="goodsType" column="goodsType" jdbcType="VARCHAR"/>
             <result property="goodsId" column="goodsId" jdbcType="BIGINT"/>
+            <result property="userId" column="userId" jdbcType="BIGINT"/>
+            <result property="quantity" column="quantity" jdbcType="INTEGER"/>
             <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="isDelete" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,goodsType,goodsId,
+        id,goodsId,userId, quantity,
         createTime,updateTime,isDelete
     </sql>
 </mapper>

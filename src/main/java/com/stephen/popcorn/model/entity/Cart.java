@@ -7,27 +7,33 @@ import java.util.Date;
 import lombok.Data;
 
 /**
- * 推荐表
- * @TableName recommend
+ * 购物车表
+ * @author stephen qiu
+ * @TableName cart
  */
-@TableName(value ="recommend")
+@TableName(value ="cart")
 @Data
-public class Recommend implements Serializable {
+public class Cart implements Serializable {
     /**
-     * 推荐栏id
+     * 购物车id
      */
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
-     * 商品类别
-     */
-    private String goodsType;
-
-    /**
      * 商品id
      */
     private Long goodsId;
+    
+    /**
+     * 购买数量
+     */
+    private Integer quantity;
+
+    /**
+     * 购买人id
+     */
+    private Long userId;
 
     /**
      * 创建时间
