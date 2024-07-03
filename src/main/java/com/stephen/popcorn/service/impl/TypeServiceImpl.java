@@ -46,7 +46,7 @@ public class TypeServiceImpl extends ServiceImpl<TypeMapper, Type>
 			ThrowUtils.throwIf(StringUtils.isAnyBlank(typeName), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
-		if (StringUtils.isNotBlank(typeName) && typeName.length() > 8192) {
+		if (StringUtils.isBlank(typeName) || typeName.length() > 8192) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
 		}
 	}

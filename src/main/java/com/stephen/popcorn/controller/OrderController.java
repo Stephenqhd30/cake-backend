@@ -13,9 +13,12 @@ import com.stephen.popcorn.model.dto.order.OrderAddRequest;
 import com.stephen.popcorn.model.dto.order.OrderEditRequest;
 import com.stephen.popcorn.model.dto.order.OrderQueryRequest;
 import com.stephen.popcorn.model.dto.order.OrderUpdateRequest;
+import com.stephen.popcorn.model.dto.orderItem.OrderItemAddRequest;
 import com.stephen.popcorn.model.entity.Order;
+import com.stephen.popcorn.model.entity.OrderItem;
 import com.stephen.popcorn.model.entity.User;
 import com.stephen.popcorn.model.vo.OrderVO;
+import com.stephen.popcorn.service.OrderItemService;
 import com.stephen.popcorn.service.OrderService;
 import com.stephen.popcorn.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +40,9 @@ public class OrderController {
 	
 	@Resource
 	private OrderService orderService;
+	
+	@Resource
+	private OrderItemService orderItemService;
 	
 	@Resource
 	private UserService userService;
@@ -62,6 +68,14 @@ public class OrderController {
 		boolean result = orderService.save(order);
 		ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
 		long newOrderId = order.getId();
+		// 创建订单项
+		OrderItem orderItem = new OrderItem();
+		orderItem.setGoodsPrice(orderAddRequest.getTotal());
+		orderItem.setGoodsAmount(orderAddRequest.getAmount());
+		orderItem.setGoodsId(orderAddRequest.getGoodsId());
+		orderItem.setOrderId(order.getId());
+		boolean orderItemResult = orderItemService.save(orderItem);
+		ThrowUtils.throwIf(!orderItemResult, ErrorCode.OPERATION_ERROR);
 		return ResultUtils.success(newOrderId);
 	}
 	
@@ -223,5 +237,4 @@ public class OrderController {
 		boolean result = orderService.updateById(order);
 		return ResultUtils.success(result);
 	}
-	
 }

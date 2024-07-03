@@ -56,14 +56,14 @@ public class OrderItemServiceImpl extends ServiceImpl<OrderItemMapper, OrderItem
 		Long orderId = orderItem.getOrderId();
 		// 创建时，参数不能为空
 		if (add) {
-			ThrowUtils.throwIf(ObjectUtils.isNotEmpty(goodsId), ErrorCode.PARAMS_ERROR);
-			ThrowUtils.throwIf(ObjectUtils.isNotEmpty(orderId), ErrorCode.PARAMS_ERROR);
+			ThrowUtils.throwIf(ObjectUtils.isEmpty(goodsId), ErrorCode.PARAMS_ERROR);
+			ThrowUtils.throwIf(ObjectUtils.isEmpty(orderId), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
-		if (ObjectUtils.isNotEmpty(goodsPrice) && goodsPrice >= 0) {
+		if (ObjectUtils.isEmpty(goodsPrice) || goodsPrice < 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品价格不能为空或者小于0");
 		}
-		if (ObjectUtils.isNotEmpty(goodsAmount)  && goodsAmount >= 0) {
+		if (ObjectUtils.isEmpty(goodsAmount) || goodsAmount < 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品数量不能为空或者小于0");
 		}
 	}

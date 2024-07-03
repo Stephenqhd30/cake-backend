@@ -57,11 +57,11 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart>
 		
 		// 创建时，参数不能为空
 		if (add) {
-			ThrowUtils.throwIf(ObjectUtils.isNotEmpty(goodsId), ErrorCode.PARAMS_ERROR);
-			ThrowUtils.throwIf(ObjectUtils.isNotEmpty(userId), ErrorCode.PARAMS_ERROR);
+			ThrowUtils.throwIf(ObjectUtils.isEmpty(goodsId), ErrorCode.PARAMS_ERROR);
+			ThrowUtils.throwIf(ObjectUtils.isEmpty(userId), ErrorCode.PARAMS_ERROR);
 		}
 		// 有参数则校验
-		if (ObjectUtils.isNotEmpty(quantity) && quantity < 0) {
+		if (ObjectUtils.isEmpty(quantity) || quantity < 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "购买数量有误");
 		}
 	}

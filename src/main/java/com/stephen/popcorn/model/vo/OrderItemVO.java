@@ -19,15 +19,16 @@ public class OrderItemVO implements Serializable {
 	 */
 	private Long id;
 	
+	
 	/**
 	 * 商品价格
 	 */
-	private Double orderItemPrice;
+	private Double goodsPrice;
 	
 	/**
 	 * 商品数量
 	 */
-	private Integer orderItemAmount;
+	private Integer goodsAmount;
 	
 	/**
 	 * 商品

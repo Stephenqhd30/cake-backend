@@ -15,6 +15,7 @@ import com.stephen.popcorn.model.dto.cart.CartQueryRequest;
 import com.stephen.popcorn.model.dto.cart.CartUpdateRequest;
 import com.stephen.popcorn.model.entity.Cart;
 import com.stephen.popcorn.model.entity.Goods;
+import com.stephen.popcorn.model.entity.OrderItem;
 import com.stephen.popcorn.model.entity.User;
 import com.stephen.popcorn.model.vo.CartVO;
 import com.stephen.popcorn.service.GoodsService;
@@ -60,7 +61,9 @@ public class CartController {
 		}
 		Cart cart = new Cart();
 		BeanUtils.copyProperties(cartAddRequest, cart);
-		cartService.validCart(cart, true);
+		// 设置购买用户为当前登录用户
+		User loginUser = userService.getLoginUser(request);
+		cart.setUserId(loginUser.getId());
 		// 检查商品是否存在
 		Goods goods = goodsService.getById(cart.getGoodsId());
 		if (goods == null) {
@@ -68,13 +71,9 @@ public class CartController {
 		}
 		// 设置订单和商品
 		cart.setGoodsId(goods.getId());
-		// 设置购买用户为当前登录用户
-		User loginUser = userService.getLoginUser(request);
-		cart.setUserId(loginUser.getId());
-		// 保存订单项
+		cartService.validCart(cart, true);
 		boolean result = cartService.save(cart);
 		ThrowUtils.throwIf(!result, ErrorCode.OPERATION_ERROR);
-		// 返回新创建的订单项 ID
 		long newCartId = cart.getId();
 		return ResultUtils.success(newCartId);
 	}

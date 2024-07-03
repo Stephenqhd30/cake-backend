@@ -62,13 +62,13 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods>
 		if (StringUtils.isBlank(typeName) && GoodsTypeEnum.getEnumByValue(typeName).getValue() != null) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品名称不能为空");
 		}
-		if (ObjectUtils.isEmpty(price) && price > 0) {
+		if (ObjectUtils.isEmpty(price) || price < 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "商品价格不能为空并且价格不得低于0");
 		}
-		if (ObjectUtils.isEmpty(stock) && price > 0) {
+		if (ObjectUtils.isEmpty(stock) || stock < 0) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "库存量不能为空或者小于0");
 		}
-		if (StringUtils.isBlank(content) && content.length() > 8192) {
+		if (StringUtils.isBlank(content) || content.length() > 8192) {
 			throw new BusinessException(ErrorCode.PARAMS_ERROR, "内容过长");
 		}
 	}

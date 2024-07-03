@@ -30,13 +30,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
-* @author stephen qiu
-* @description 针对表【order(订单表)】的数据库操作Service实现
-* @createDate 2024-06-24 17:35:27
-*/
+ * @author stephen qiu
+ * @description 针对表【order(订单表)】的数据库操作Service实现
+ * @createDate 2024-06-24 17:35:27
+ */
 @Service
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>
-    implements OrderService{
+		implements OrderService {
 	@Resource
 	private UserService userService;
 	
@@ -151,7 +151,3 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order>
 		return orderVOPage;
 	}
 }
-
-
-
-
